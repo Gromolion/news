@@ -10,7 +10,9 @@ services:
       - ../frontend:/usr/src/app
     restart: always
     ports:
-      - "8080:8080"
+      - "8000:8080"
+    depends_on:
+      - backend
   backend:
     container_name: backend
     build:
