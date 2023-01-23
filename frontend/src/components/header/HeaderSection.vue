@@ -5,13 +5,17 @@ import UserLinks from "@/components/header/UserLinks.vue";
 
 export default {
   name: "HeaderSection",
-  components: {UserLinks, GuestLinks, HeaderLink },
+  components: { UserLinks, GuestLinks, HeaderLink },
   data() {
     return {
       newsExist: true,
-      isGuest: false,
       isAdmin: true,
     };
+  },
+  computed: {
+    user() {
+      return this.$store.state.auth.user;
+    },
   },
 };
 </script>
@@ -35,8 +39,8 @@ export default {
               </span>
             </li>
           </ul>
-          <GuestLinks v-if="isGuest" />
-          <UserLinks v-else :is-admin="isAdmin" />
+          <UserLinks v-if="user" :is-admin="isAdmin" />
+          <GuestLinks v-else />
         </div>
       </div>
     </nav>

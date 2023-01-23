@@ -1,21 +1,16 @@
 <script>
 import FormInput from "@/components/forms/FormInput.vue";
 import FormTextarea from "@/components/forms/FormTextarea.vue";
-import router from "@/router";
 
 export default {
   name: "NewsForm",
-  methods: {
-    router() {
-      return router;
-    },
-  },
   components: { FormTextarea, FormInput },
   data() {
     return {
       header: null,
       announce: null,
       description: null,
+      image: null,
       errors: {
         header: null,
         announce: null,
@@ -34,20 +29,21 @@ export default {
       name="header"
       label="Заголовок"
       placeholder="Введите заголовок"
-      :value="header"
+      v-model="header"
       :error="errors.header"
     />
     <FormInput
       name="announce"
       label="Анонс"
       placeholder="Введите анонс"
-      :value="announce"
+      v-model="announce"
       :error="errors.announce"
     />
     <FormInput
       name="image"
       type="file"
       label="Загрузите картинку(jpeg, gif)"
+      v-model="image"
       :error="errors.image"
     />
     <FormTextarea
@@ -56,12 +52,12 @@ export default {
       label="Текст новости"
       rows="20"
       placeholder="Введите текст новости"
-      :value="description"
+      v-model="description"
       :error="errors.description"
     />
 
     <div class="d-flex justify-content-center">
-      <button type="submit" class="btn btn-primary px-5">
+      <button type="submit" class="btn btn-outline-primary px-5">
         {{ update ? "Обновить новость" : "Предложить новость" }}
       </button>
     </div>

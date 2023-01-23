@@ -5,6 +5,12 @@ export default {
   props: ["isAdmin"],
   name: "UserLinks",
   components: { HeaderLink },
+  methods: {
+    handleLogout() {
+      const { dispatch } = this.$store;
+      dispatch("auth/logout");
+    },
+  },
 };
 </script>
 
@@ -16,6 +22,6 @@ export default {
       route-text="Админ-панель"
     />
     <HeaderLink route-name="profile" route-text="Профиль" />
-    <!--            <HeaderLink route-name="logout" route-text="Выйти" />-->
+    <HeaderLink @click.prevent.stop="handleLogout" route-text="Выйти" />
   </ul>
 </template>

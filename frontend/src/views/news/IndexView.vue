@@ -7,7 +7,6 @@ export default {
   components: { NewsItem, FilterPanel },
   data() {
     return {
-      auth: true,
       news: [
         {
           id: 1,
@@ -20,6 +19,11 @@ export default {
       ],
     };
   },
+  computed: {
+    user() {
+      return this.$store.state.auth.user;
+    },
+  },
   created() {
     document.title = "Новости Дона";
   },
@@ -27,10 +31,7 @@ export default {
 </script>
 
 <template>
-  <!--    <div v-if="" class="alert alert-primary text-center mt-2" role="alert">-->
-  <!--      {{ Session::get('success') }}-->
-  <!--    </div>-->
-  <div v-if="auth" class="d-flex justify-content-center m-5">
+  <div v-if="user" class="d-flex justify-content-center m-5">
     <RouterLink :to="{ name: 'news.create' }" class="btn btn-primary px-5">
       Предложить новость
     </RouterLink>

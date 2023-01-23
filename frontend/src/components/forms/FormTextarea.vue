@@ -15,12 +15,13 @@ export default {
     labelClass: String,
     inputClass: String,
     placeholder: String,
-    value: String,
+    modelValue: String,
     error: String,
     errorClass: String,
     rows: Number,
     cols: Number,
   },
+  emits: ["update:modelValue"],
 };
 </script>
 
@@ -36,7 +37,8 @@ export default {
       :rows="rows"
       :cols="cols"
       :placeholder="placeholder"
-      :value="value"
+      :value="modelValue"
+      @input="$emit('update:modelValue', $event.target.value)"
     >
     </textarea>
     <p v-if="error" class="text-danger" :class="errorClass" role="alert">
