@@ -43,8 +43,5 @@ export default {
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value)"
     />
-    <p v-if="error" class="text-danger" :class="errorClass" role="alert">
-      <strong>{{ error }}</strong>
-    </p>
   </div>
 </template>

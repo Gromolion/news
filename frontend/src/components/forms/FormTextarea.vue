@@ -20,6 +20,7 @@ export default {
     errorClass: String,
     rows: Number,
     cols: Number,
+    required: Boolean,
   },
   emits: ["update:modelValue"],
 };
@@ -32,6 +33,7 @@ export default {
     </label>
     <textarea
       :name="name"
+      :required="required"
       class="form-control"
       :class="inputClass"
       :rows="rows"

@@ -19,9 +19,12 @@ export default {
 
 <template>
   <div v-if="alert.message" :class="`alert ${alert.type}`" role="alert">
-    <ul class="mb-0" v-for="msg in alert.message" :key="msg">
-      <li>{{ msg }}</li>
-    </ul>
+    <div v-if="typeof alert.message === Array">
+      <ul class="mb-0" v-for="msg in alert.message" :key="msg">
+        <li>{{ msg }}</li>
+      </ul>
+    </div>
+    <div v-else>{{ alert.message }}</div>
     <button
       type="button"
       class="btn-close"
