@@ -37,7 +37,7 @@ export default {
 <template>
   <div class="bg-light m-5 p-4 rounded">
     <h1 class="text-center mb-4">
-      {{ formatDate(newsItem.created_at) }} - {{ newsItem.header }}
+      {{ formatDate(newsItem.created_at) }} — {{ newsItem.header }}
     </h1>
     <div class="d-flex">
       <div>
@@ -48,7 +48,9 @@ export default {
         />
         <p v-if="newsItem.user" class="">
           Предложена:
-          <a href="">{{ newsItem.user.name }}</a>
+          <RouterLink :to="{ name: 'profile', params: { id: newsItem.user.id } }">
+            {{ newsItem.user.name }}
+          </RouterLink>
         </p>
       </div>
       <div class="p-5">{{ newsItem.description }}</div>

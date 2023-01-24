@@ -1,9 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
-import IndexView from "@/views/news/IndexView.vue";
-import FormView from "@/views/news/FormView.vue";
-import ShowView from "@/views/news/ShowView.vue";
 import LoginView from "@/views/auth/LoginView.vue";
 import RegisterView from "@/views/auth/RegisterView.vue";
+import NewsIndex from "@/views/news/NewsIndex.vue";
+import NewsForm from "@/views/news/NewsForm.vue";
+import NewsShow from "@/views/news/NewsShow.vue";
+import ProfileShow from "@/views/profile/ProfileShow.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,12 +12,12 @@ const router = createRouter({
     {
       path: "/",
       name: "news.index",
-      component: IndexView,
+      component: NewsIndex,
     },
     {
       path: "/news/create",
       name: "news.create",
-      component: FormView,
+      component: NewsForm,
       meta: {
         requiresAuth: true,
       },
@@ -24,12 +25,15 @@ const router = createRouter({
     {
       path: "/news/:id",
       name: "news.show",
-      component: ShowView,
+      component: NewsShow,
     },
     {
       path: "/news/:id/update",
       name: "news.update",
-      component: FormView,
+      component: NewsForm,
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: "/login",
@@ -50,16 +54,22 @@ const router = createRouter({
     {
       path: "/logout",
       name: "logout",
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
       path: "/admin",
       name: "admin.index",
-      component: IndexView,
+      component: NewsIndex,
+      meta: {
+        requiresAuth: true,
+      },
     },
     {
-      path: "/profile",
+      path: "/profile/:id?",
       name: "profile",
-      component: IndexView,
+      component: ProfileShow,
     },
   ],
 });
