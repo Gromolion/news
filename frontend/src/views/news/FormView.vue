@@ -52,6 +52,22 @@ export default {
       return this.$store.state.auth;
     },
   },
+  created() {
+    const id = this.$route.params.id;
+    if (id) {
+      this.update = true;
+      document.title = "Обновить новость";
+
+      axios({
+        url: "/api/news/" + id,
+        method: "GET",
+      }).then((res) => {
+        this.header = res.data.header;
+        this.announce = res.data.announce;
+        this.description = res.data.description;
+      });
+    } else document.title = "Создать новость";
+  },
 };
 </script>
 

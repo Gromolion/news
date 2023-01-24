@@ -11,9 +11,16 @@ export default {
   },
   data() {
     return {
-      canUpdate: false,
       newsItem: null,
     };
+  },
+  computed: {
+    user() {
+      return this.$store.state.auth.user;
+    },
+    canUpdate() {
+      return this.user && this.user.id === this.newsItem.user.id;
+    },
   },
   created() {
     axios({
@@ -47,7 +54,9 @@ export default {
       <div class="p-5">{{ newsItem.description }}</div>
     </div>
     <div v-if="canUpdate" class="d-flex justify-content-end">
-      <a class="btn btn-primary" href="">Обновить новость</a>
+      <RouterLink :to="{ name: 'news.update', params: { id: newsItem.id } }">
+        <p class="btn btn-primary">Обновить новость</p>
+      </RouterLink>
     </div>
   </div>
 </template>

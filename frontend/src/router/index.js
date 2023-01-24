@@ -27,6 +27,11 @@ const router = createRouter({
       component: ShowView,
     },
     {
+      path: "/news/:id/update",
+      name: "news.update",
+      component: FormView,
+    },
+    {
       path: "/login",
       name: "login",
       component: LoginView,
