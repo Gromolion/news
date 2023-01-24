@@ -11,17 +11,15 @@ export default {
     return {
       news: [],
       totalCount: 0,
+      page: null,
+      perPage: null,
+      search: null,
+      sort: null,
     };
   },
   computed: {
     user() {
       return this.$store.state.auth.user;
-    },
-    page() {
-      return this.$route.query.page ?? 1;
-    },
-    perPage() {
-      return this.$route.query.perPage ?? 5;
     },
     totalPages() {
       return Math.ceil(this.totalCount / this.perPage);
@@ -29,16 +27,26 @@ export default {
   },
   created() {
     document.title = "Новости Дона";
-    this.loadNews({ page: this.page, perPage: this.perPage });
+    const query = this.$route.query;
+    this.loadNews({
+      page: query.page ?? 1,
+      perPage: query.perPage ?? 5,
+    });
   },
   methods: {
-    loadNews(query) {
+    loadNews(query = {}) {
+      if (query.page) this.page = query.page;
+      if (query.perPage) this.perPage = query.perPage;
+      if (query.sort) this.sort = query.sort;
+      this.search = query.search;
       axios({
         url: "/api/news",
         method: "GET",
         params: {
-          page: query.page,
-          perPage: query.perPage,
+          page: this.page,
+          perPage: this.perPage,
+          sort: this.sort,
+          search: this.search,
         },
       }).then((res) => {
         this.news = res.data.news;
@@ -55,7 +63,7 @@ export default {
       Предложить новость
     </RouterLink>
   </div>
-  <FilterPanel />
+  <FilterPanel @filter="loadNews" />
   <NewsItem v-for="newsItem in news" :key="newsItem.id" :news="newsItem" />
   <PaginationBootstrap
     label="Новостей на странице"

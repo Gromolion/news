@@ -12,15 +12,27 @@ export default {
     this.sort = this.$route.query.sort;
     this.search = this.$route.query.search;
   },
+  methods: {
+    handleSubmit() {
+      const query = { ...this.$route.query, sort: this.sort, search: this.search };
+      this.$router.push({ query: query });
+      this.$emit("filter", query);
+    },
+  },
 };
 </script>
 
 <template>
-  <form method="GET" class="mt-4">
+  <form @submit.prevent="handleSubmit" method="GET" class="mt-4">
     <div class="d-flex justify-content-between">
-      <div>
-        <label for="sort">Сортировать по</label>
-        <select name="sort" id="sort" class="sort">
+      <div class="d-flex align-items-center">
+        <label for="sort" style="white-space: nowrap">Сортировать по</label>
+        <select
+          v-model="sort"
+          class="form-select sort mx-2"
+          name="sort"
+          id="sort"
+        >
           <option value="views ASC" :selected="sort === 'views ASC'">
             возрастанию просмотров
           </option>
@@ -48,9 +60,9 @@ export default {
           type="search"
           placeholder="Поиск"
           aria-label="Поиск"
-          :value="search"
+          v-model="search"
         />
-        <button class="btn btn-outline-primary" type="submit">Найти</button>
+        <button class="btn btn-outline-primary">Найти</button>
       </div>
     </div>
   </form>
