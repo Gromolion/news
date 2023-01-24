@@ -16,6 +16,7 @@ export default {
       description: null,
       image: null,
       update: false,
+      id: null,
     };
   },
   methods: {
@@ -24,11 +25,19 @@ export default {
       formData.append("header", this.header);
       formData.append("announce", this.announce);
       formData.append("description", this.description);
-      formData.append("image", this.image);
+      if (this.image) formData.append("image", this.image);
+
+      let url = "/api/news/",
+        method = "POST";
+
+      if (this.update) {
+        url += this.id;
+        method = "PATCH";
+      }
 
       axios({
-        url: "/api/news",
-        method: "POST",
+        url: url,
+        method: method,
         data: formData,
         headers: {
           "Content-Type": "multipart/form-data",
@@ -57,6 +66,7 @@ export default {
     if (id) {
       this.update = true;
       document.title = "Обновить новость";
+      this.id = id;
 
       axios({
         url: "/api/news/" + id,

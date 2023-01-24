@@ -88,5 +88,6 @@ export default {
 .file-image {
   border: 1px black dashed;
   border-radius: 15px;
+  max-width: 300px;
 }
 </style>

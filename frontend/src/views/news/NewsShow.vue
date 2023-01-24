@@ -29,6 +29,12 @@ export default {
     }).then((res) => {
       this.newsItem = res.data;
       document.title = this.newsItem.header;
+      const { dispatch } = this.$store;
+      dispatch("views/view", {
+        newsId: this.newsItem.id,
+        viewsNow: this.newsItem.views,
+        user: this.user,
+      });
     });
   },
 };
@@ -48,7 +54,9 @@ export default {
         />
         <p v-if="newsItem.user" class="">
           Предложена:
-          <RouterLink :to="{ name: 'profile', params: { id: newsItem.user.id } }">
+          <RouterLink
+            :to="{ name: 'profile', params: { id: newsItem.user.id } }"
+          >
             {{ newsItem.user.name }}
           </RouterLink>
         </p>
