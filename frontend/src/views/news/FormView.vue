@@ -4,6 +4,7 @@ import FormTextarea from "@/components/forms/FormTextarea.vue";
 import axios from "axios";
 import FileUpload from "@/components/forms/FileUpload.vue";
 import { authHeader } from "@/helpers/auth-headers";
+import router from "@/router";
 
 export default {
   name: "NewsForm",
@@ -33,7 +34,14 @@ export default {
           "Content-Type": "multipart/form-data",
           Authorization: authHeader(this.auth.user),
         },
-      });
+      })
+        .then(() => {
+          router.push("/");
+        })
+        .catch((err) => {
+          const { dispatch } = this.$store;
+          dispatch("alert/error", err.message, { root: true });
+        });
     },
     handleFileUpload(file) {
       this.image = file;

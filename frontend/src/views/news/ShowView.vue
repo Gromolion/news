@@ -1,19 +1,42 @@
 <script>
+import axios from "axios";
+import { assets } from "@/helpers/assets-path";
+
 export default {
   name: "ShowView",
+  methods: {
+    assets,
+    formatDate(date) {
+      date = new Date(Date.parse(date));
+      const year = new Intl.DateTimeFormat("en", { year: "numeric" }).format(
+        date
+      );
+      const month = new Intl.DateTimeFormat("en", { month: "2-digit" }).format(
+        date
+      );
+      const day = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(
+        date
+      );
+      const hours = new Intl.DateTimeFormat("en", { hour: "2-digit", hour12: false }).format(
+        date
+      );
+      const minutes = new Intl.DateTimeFormat("en", {
+        minute: "2-digit",
+      }).format(date);
+      return `${year}-${month}-${day} ${hours}:${minutes}`;
+    },
+  },
   data() {
     return {
       canUpdate: true,
-      newsItem: {
-        id: 1,
-        image: false,
-        created_at: "12.09.2003",
-        header: "ass",
-        announce: "ass",
-        description: "ass",
-        views: "1",
-      },
+      newsItem: null,
     };
+  },
+  created() {
+    axios({
+      url: "/api/news/" + this.$route.params.id,
+      method: "GET",
+    }).then((res) => (this.newsItem = res.data));
   },
 };
 </script>
@@ -21,11 +44,15 @@ export default {
 <template>
   <div class="bg-light m-5 p-4 rounded">
     <h1 class="text-center mb-4">
-      {{ newsItem.created_at }} - {{ newsItem.header }}
+      {{ formatDate(newsItem.created_at) }} - {{ newsItem.header }}
     </h1>
     <div class="d-flex">
       <div>
-        <img v-if="newsItem.image" :src="newsItem.image" alt="" />
+        <img
+          v-if="newsItem.image_path"
+          :src="assets(newsItem.image_path)"
+          alt=""
+        />
         <p v-if="newsItem.user" class="">
           Предложена:
           <a href="">{{ newsItem.user.name }}</a>
@@ -38,3 +65,9 @@ export default {
     </div>
   </div>
 </template>
+
+<style scoped>
+img {
+  max-width: 300px;
+}
+</style>

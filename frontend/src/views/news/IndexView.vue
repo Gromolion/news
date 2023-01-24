@@ -1,22 +1,14 @@
 <script>
 import FilterPanel from "@/components/FilterPanel.vue";
 import NewsItem from "@/components/news/NewsItem.vue";
+import axios from "axios";
 
 export default {
   name: "NewsIndex",
   components: { NewsItem, FilterPanel },
   data() {
     return {
-      news: [
-        {
-          id: 1,
-          image: false,
-          created_at: "12.09.2003",
-          header: "ass",
-          announce: "ass",
-          views: "1",
-        },
-      ],
+      news: [],
     };
   },
   computed: {
@@ -26,6 +18,12 @@ export default {
   },
   created() {
     document.title = "Новости Дона";
+    axios({
+      url: "/api/news",
+      method: "GET",
+    }).then((res) => {
+      this.news = res.data;
+    });
   },
 };
 </script>
